@@ -15,6 +15,8 @@ public class Player extends Entity{
     public final int screenY;
 
     public Player(GamePanel gp, KeyHandler keyH){
+        super(gp);
+        
         this.gp = gp;
         this.keyH = keyH;
 
@@ -81,6 +83,7 @@ public class Player extends Entity{
 
 
         }
+        if
         
     }
 

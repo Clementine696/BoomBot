@@ -3,6 +3,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.JPanel;
 import entity.Player;
+import entity.Bullet;
 import tile.TileManager;
 import java.awt.*;
 
@@ -40,6 +41,8 @@ public class GamePanel extends JPanel implements Runnable{
     public Player player = new Player(this, keyH);
     public Minimap minimap = new Minimap(this);
     public UI ui = new UI(this);
+    public Bullet bullet = new Bullet(this);
+
 
     public GamePanel(){
         this.setPreferredSize(new Dimension(screenWidth,screenHeight));
@@ -125,6 +128,7 @@ public class GamePanel extends JPanel implements Runnable{
             tileM.draw(g2);
             player.draw(g2);
             minimap.draw(g2);
+            bullet.draw(g2);
             g2.dispose();
         }
         else if(gameState==gameOverState){

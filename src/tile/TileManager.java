@@ -86,12 +86,13 @@ public class TileManager {
     }
 
     public void RandomBomb(){
+        int bomb_rate = 7;
         for(int col=0;col<gp.maxWorldCol;col++){
             for(int row=0;row<gp.maxWorldRow;row++){
                 if(mapTileNum[col][row] == 0){
                     Random R = new Random();
                     int x = R.nextInt(100);
-                    if(x<7){
+                    if(x<bomb_rate){
                         mapTileNum[col][row] = 3;
                     }
                 }

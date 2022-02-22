@@ -38,6 +38,8 @@ public class KeyHandler implements KeyListener{
                               break;
                         case KeyEvent.VK_D : rightPressed = true;
                               break;
+                        case KeyEvent.VK_SPACE : rightPressed = true;
+                              break;
                   } 
             }
       } 
