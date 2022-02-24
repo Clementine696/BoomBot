@@ -3,6 +3,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.JPanel;
 import entity.Player;
+import object.SuperObject;
 import entity.Bullet;
 import tile.TileManager;
 import java.awt.*;
@@ -22,8 +23,8 @@ public class GamePanel extends JPanel implements Runnable{
     // WORLD SETTINGS
     public final int maxWorldCol = 100;
     public final int maxWorldRow = 80;
-    public final int worldWidth = tileSize * maxScreenCol;
-    public final int worldHeight = tileSize * maxWorldRow;
+    // public final int worldWidth = tileSize * maxScreenCol;
+    // public final int worldHeight = tileSize * maxWorldRow;
 
     // FPS
     int FPS = 60;
@@ -34,14 +35,24 @@ public class GamePanel extends JPanel implements Runnable{
     public final int gameOverState = 2;
     public final int finishState = 3;
 
+    //SYSTEM
     TileManager tileM = new TileManager(this);
     KeyHandler keyH = new KeyHandler(this);
-    Thread gameThread;
+    Sound music = new Sound();
+    Sound se = new Sound();
     public CollisionChecker cChecker = new CollisionChecker(this);
+    public AssetSetter aSetter = new AssetSetter(this);
+    Thread gameThread;
+
+    //ENTITY AND OBJECT
     public Player player = new Player(this, keyH);
+    public SuperObject obj[] = new SuperObject[10];
+
+
     public Minimap minimap = new Minimap(this);
     public UI ui = new UI(this);
     public Bullet bullet = new Bullet(this);
+
 
 
     public GamePanel(){
@@ -50,6 +61,12 @@ public class GamePanel extends JPanel implements Runnable{
         this.setDoubleBuffered(true);
         this.addKeyListener(keyH);
         this.setFocusable(true);
+    }
+
+    public void SetupGame() {
+
+        aSetter.setObject();
+        //playMusic(0);
     }
 
     public void startGameThread(){
@@ -125,8 +142,19 @@ public class GamePanel extends JPanel implements Runnable{
             ui.drawTitleScreen(g2);
         }
         else if(gameState==playState){
+            // TILE
             tileM.draw(g2);
+
+            //OBJECT
+            for(int i = 0; i < obj.length; i++){
+                if(obj[i] != null){
+                    obj[i].draw(g2, this);
+                }
+            }
+
+            // PLAYER
             player.draw(g2);
+
             minimap.draw(g2);
             bullet.draw(g2);
             g2.dispose();
@@ -138,5 +166,20 @@ public class GamePanel extends JPanel implements Runnable{
             ui.drawFinishScreen(g2);
         }
         
+    }
+
+    public void playMusic(int i){
+        music.setFile(i);
+        music.play();
+        music.loop();
+    }
+
+    public void stopMusic(){
+        music.stop();
+    }
+
+    public void playSE(int i){
+        se.setFile(i);
+        se.play();
     }
 }

@@ -1,8 +1,6 @@
 package entity;
 import java.awt.image.BufferedImage;
-
 import main.GamePanel;
-
 import java.awt.Rectangle;
 
 public class Entity {
@@ -16,6 +14,8 @@ public class Entity {
     public String direction;
 
     public Rectangle solidArea;
+
+    public int solidAreaDefaultX, solidAreaDefaultY;
     public boolean collisionOn = false;
     
     public Entity(GamePanel gp){

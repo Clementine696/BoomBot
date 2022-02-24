@@ -14,6 +14,8 @@ public class Player extends Entity{
     public final int screenX;
     public final int screenY;
 
+    int hasKey = 0;
+
     public Player(GamePanel gp, KeyHandler keyH){
         super(gp);
         
@@ -24,6 +26,9 @@ public class Player extends Entity{
         screenY = gp.screenHeight/2 - gp.tileSize/2;
 
         solidArea = new Rectangle(17, 13, 1, 1);
+        solidAreaDefaultX = solidArea.x;
+        solidAreaDefaultY = solidArea.y;
+
         //solidArea = new Rectangle(gp.tileSize/18*gp.scale, gp.tileSize/9*gp.scale, gp.tileSize*gp.scale*2/9, (gp.tileSize/3*2)/3*gp.scale); //8 16 32 32 
         setDefaultValues(); 
         getPlayerImage();
@@ -66,7 +71,11 @@ public class Player extends Entity{
             // CHECK TILE COLLISION
             collisionOn = false;
             gp.cChecker.checkTile(this);
-    
+
+            // CHECK OBJECT COLLISION
+            int objIndex = gp.cChecker.checkObject(this, true);
+            pickUpObject(objIndex);
+
             // IF COLLISIO IS FALSE, PLAYER CAN MOVE
             if(collisionOn == false){
                 switch(direction){
@@ -80,11 +89,32 @@ public class Player extends Entity{
                         break;
                 }
             }
-
-
         }
-        if
-        
+    }
+
+    public void pickUpObject(int i) {
+        if(i != 999) {
+
+            String objectName = gp.obj[i].name;
+
+            switch(objectName) {
+                case "Key":
+                    //gp.playSE(1);
+                    hasKey++;
+                    gp.obj[i] = null;
+                break;
+
+                case "Door":
+                    if(hasKey>0){
+                        gp.obj[i] = null;
+                        hasKey--;
+                    }
+                break;
+
+            }
+
+            
+        }
     }
 
     public void draw(Graphics2D g2){
