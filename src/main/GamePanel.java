@@ -42,6 +42,7 @@ public class GamePanel extends JPanel implements Runnable{
     Sound se = new Sound();
     public CollisionChecker cChecker = new CollisionChecker(this);
     public AssetSetter aSetter = new AssetSetter(this);
+    public UI ui = new UI(this);
     Thread gameThread;
 
     //ENTITY AND OBJECT
@@ -50,7 +51,6 @@ public class GamePanel extends JPanel implements Runnable{
 
 
     public Minimap minimap = new Minimap(this);
-    public UI ui = new UI(this);
     public Bullet bullet = new Bullet(this);
 
 
@@ -154,8 +154,9 @@ public class GamePanel extends JPanel implements Runnable{
 
             // PLAYER
             player.draw(g2);
-
+            
             minimap.draw(g2);
+            ui.draw(g2);
             bullet.draw(g2);
             g2.dispose();
         }

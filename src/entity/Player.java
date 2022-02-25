@@ -5,6 +5,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import main.GamePanel;
 import main.KeyHandler;
+import main.UtilityTool;
 
 public class Player extends Entity{
     
@@ -14,7 +15,7 @@ public class Player extends Entity{
     public final int screenX;
     public final int screenY;
 
-    int hasKey = 0;
+    public int hasKey = 0;
 
     public Player(GamePanel gp, KeyHandler keyH){
         super(gp);
@@ -41,15 +42,22 @@ public class Player extends Entity{
     }
 
     public void getPlayerImage(){
+        up = setup("robot_w");
+        down = setup("robot_s");
+        left = setup("robot_a");
+        right = setup("robot_d");
+    }
+
+    public BufferedImage setup(String imageName){
+        UtilityTool uTool = new UtilityTool();
+        BufferedImage image = null;
         try{
-            up = ImageIO.read(getClass().getResourceAsStream("/res/player/robot_w.png"));
-            down = ImageIO.read(getClass().getResourceAsStream("/res/player/robot_s.png"));
-            left = ImageIO.read(getClass().getResourceAsStream("/res/player/robot_a.png"));
-            right = ImageIO.read(getClass().getResourceAsStream("/res/player/robot_d.png"));
-        }
-        catch(IOException e){
+            image = ImageIO.read(getClass().getResourceAsStream("/res/player/" + imageName +".png"));
+            image = uTool.scaleImage(image, gp.tileSize, gp.tileSize);
+        }catch(IOException e){
             e.printStackTrace();
         }
+        return image;
     }
 
     public void update(){
@@ -102,6 +110,7 @@ public class Player extends Entity{
                     //gp.playSE(1);
                     hasKey++;
                     gp.obj[i] = null;
+                    gp.ui.showMessage("Yoohoo");
                 break;
 
                 case "Door":
@@ -133,6 +142,6 @@ public class Player extends Entity{
             case "right" : image = right;
                 break;
         }
-        g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+        g2.drawImage(image, screenX, screenY, null);
     }
 }

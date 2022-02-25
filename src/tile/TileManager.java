@@ -8,6 +8,7 @@ import java.awt.*;
 import javax.imageio.ImageIO;
 
 import main.GamePanel;
+import main.UtilityTool;
 
 public class TileManager {
     GamePanel gp;
@@ -26,34 +27,32 @@ public class TileManager {
     }
 
     public void getTileImage(){
+        
+        setup(0, "glass0", false);
+        setup(1, "glass1", true);
+        setup(2, "glass2", true);
+        setup(3, "bomb", true);
+        setup(4, "princess", true);
+        
+        tile[3].bomb = true;
+        tile[4].princess = true;
+
+    }
+
+    public void setup(int index, String imageName, boolean collision){
+        UtilityTool uTool = new UtilityTool();
+
         try{
+            tile[index] = new Tile();
+            tile[index].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/" + imageName + ".png"));
+            tile[index].image = uTool.scaleImage(tile[index].image, gp.tileSize, gp.tileSize);
+            tile[index].collision = collision;
 
-            tile[0] = new Tile();
-            tile[0].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/glass0.png"));
-
-            tile[1] = new Tile();
-            tile[1].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/glass1.png"));
-            tile[1].collision = true;
-
-            tile[2] = new Tile();
-            tile[2].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/glass2.png"));
-            tile[2].collision = true;
-
-            tile[3] = new Tile();
-            tile[3].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/bomb.png"));
-            tile[3].collision = true;
-            tile[3].bomb = true;
-
-            tile[4] = new Tile();
-            tile[4].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/princess.png"));
-            tile[4].collision = true;
-            tile[4].princess = true;
-
-        }
-        catch(IOException e){
+        }catch(IOException e){
             e.printStackTrace();
         }
     }
+
 
     public void loadMap(){
         try{
@@ -130,7 +129,7 @@ public class TileManager {
                worldX - gp.tileSize < gp.player.worldX + gp.player.screenX &&
                worldY + gp.tileSize > gp.player.worldY - gp.player.screenY &&
                worldY - gp.tileSize < gp.player.worldY + gp.player.screenY) {
-                    g2.drawImage(tile[tileNum].image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+                    g2.drawImage(tile[tileNum].image, screenX, screenY, null);
                 }
             
             worldCol++;
