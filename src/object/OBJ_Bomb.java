@@ -3,16 +3,17 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import main.GamePanel;
 
-public class OBJ_Key extends SuperObject{
+public class OBJ_Bomb extends SuperObject{
 
     GamePanel gp;
 
-    public OBJ_Key(GamePanel gp) {
+    public OBJ_Bomb(GamePanel gp) {
 
         this.gp = gp;
-        name = "Key";
+        name = "Bomb";
+        this.hp = 0;
         try{
-            image = ImageIO.read(getClass().getResourceAsStream("/res/objects/key.png"));
+            image = ImageIO.read(getClass().getResourceAsStream("/res/objects/bomb.png"));
             image = uTool.scaleImage(image, gp.tileSize, gp.tileSize);
 
         }catch(IOException e){

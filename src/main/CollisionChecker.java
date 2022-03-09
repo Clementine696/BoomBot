@@ -32,12 +32,6 @@ public class CollisionChecker {
                 if(gp.tileM.tile[tileNum1].collision == true || gp.tileM.tile[tileNum2].collision == true){
                     entity.collisionOn = true;
                 }
-                if(gp.tileM.tile[tileNum1].bomb == true || gp.tileM.tile[tileNum2].bomb == true){
-                    gp.gameState = gp.gameOverState;
-                }
-                if(gp.tileM.tile[tileNum1].princess == true || gp.tileM.tile[tileNum2].princess == true){
-                    gp.gameState = gp.finishState;
-                }
                 break;
             case "down" :
                 entityBottomRow = (entityBottomWorldY + entity.speed)/gp.tileSize;
@@ -45,12 +39,6 @@ public class CollisionChecker {
                 tileNum2 = gp.tileM.mapTileNum[entityRightCol][entityBottomRow];
                 if(gp.tileM.tile[tileNum1].collision == true || gp.tileM.tile[tileNum2].collision == true){
                     entity.collisionOn = true;
-                }
-                if(gp.tileM.tile[tileNum1].bomb == true || gp.tileM.tile[tileNum2].bomb == true){
-                    gp.gameState = gp.gameOverState;
-                }
-                if(gp.tileM.tile[tileNum1].princess == true || gp.tileM.tile[tileNum2].princess == true){
-                    gp.gameState = gp.finishState;
                 }
                 break;
             case "left" :
@@ -60,12 +48,6 @@ public class CollisionChecker {
                 if(gp.tileM.tile[tileNum1].collision == true || gp.tileM.tile[tileNum2].collision == true){
                     entity.collisionOn = true;
                 }
-                if(gp.tileM.tile[tileNum1].bomb == true || gp.tileM.tile[tileNum2].bomb == true){
-                    gp.gameState = gp.gameOverState;
-                }
-                if(gp.tileM.tile[tileNum1].princess == true || gp.tileM.tile[tileNum2].princess == true){
-                    gp.gameState = gp.finishState;
-                }
                 break;
             case "right" :
                 entityRightCol = (entityRightWorldX + entity.speed)/gp.tileSize;
@@ -73,12 +55,6 @@ public class CollisionChecker {
                 tileNum2 = gp.tileM.mapTileNum[entityRightCol][entityBottomRow];
                 if(gp.tileM.tile[tileNum1].collision == true || gp.tileM.tile[tileNum2].collision == true){
                     entity.collisionOn = true;
-                }
-                if(gp.tileM.tile[tileNum1].bomb == true || gp.tileM.tile[tileNum2].bomb == true){
-                    gp.gameState = gp.gameOverState;
-                }
-                if(gp.tileM.tile[tileNum1].princess == true || gp.tileM.tile[tileNum2].princess == true){
-                    gp.gameState = gp.finishState;
                 }
                 break;
         }

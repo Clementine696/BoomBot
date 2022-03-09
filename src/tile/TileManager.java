@@ -3,7 +3,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.Random;
 import java.awt.*;
 import javax.imageio.ImageIO;
 
@@ -22,8 +21,6 @@ public class TileManager {
 
         getTileImage();
         loadMap();
-        RandomBomb();
-        RandomPrincess();
     }
 
     public void getTileImage(){
@@ -31,12 +28,6 @@ public class TileManager {
         setup(0, "glass0", false);
         setup(1, "glass1", true);
         setup(2, "glass2", true);
-        setup(3, "bomb", true);
-        setup(4, "princess", true);
-        
-        tile[3].bomb = true;
-        tile[4].princess = true;
-
     }
 
     public void setup(int index, String imageName, boolean collision){
@@ -83,30 +74,6 @@ public class TileManager {
             e.printStackTrace();
         }
     }
-
-    public void RandomBomb(){
-        int bomb_rate = 7;
-        for(int col=0;col<gp.maxWorldCol;col++){
-            for(int row=0;row<gp.maxWorldRow;row++){
-                if(mapTileNum[col][row] == 0){
-                    Random R = new Random();
-                    int x = R.nextInt(100);
-                    if(x<bomb_rate){
-                        mapTileNum[col][row] = 3;
-                    }
-                }
-            }
-        }
-        mapTileNum[1][1] = 0;
-    }
-
-    public void RandomPrincess(){
-        Random R = new Random();
-        int x = R.nextInt(gp.maxWorldCol-2)+1;
-        int y = R.nextInt(gp.maxWorldRow-2)+1;
-        mapTileNum[x][y] = 4;
-    }
-
 
     public void draw(Graphics2D g2){
         // g2.drawImage(tile[0].image, 0, 0, gp.tileSize, gp.tileSize, null);

@@ -8,6 +8,7 @@ public class SuperObject {
     
     public BufferedImage image;
     public String name;
+    public int hp;
     public boolean collision = false;
     public int worldX, worldY;
     //Today

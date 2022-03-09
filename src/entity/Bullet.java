@@ -9,30 +9,68 @@ import java.awt.image.BufferedImage;
 public class Bullet extends Entity{
 
     GamePanel gp;
+    // Thread bulletThread;
 
-    public Bullet(GamePanel gp){
+    public Bullet(GamePanel gp, int X, int Y, String Direction){
         super(gp);
         this.gp = gp;
-        setDefaultValues();
         getBulletImage();
+        // bulletThread = new Thread();
+        setDefaultValues();
+        direction = Direction;
+        worldX = X;
+        worldY = Y;
+        solidArea = new Rectangle(20, 20, 12, 5);
+        solidAreaDefaultX = solidArea.x;
+        solidAreaDefaultY = solidArea.y;
+        // bulletThread.start();
     }
 
     public void setDefaultValues(){
-        speed = 1;
-        direction = "down";
-        worldX = gp.tileSize * 3;
-        worldY = gp.tileSize * 3;
+        speed = 5;
     }
 
     public void getBulletImage(){
         try{
-            up = ImageIO.read(getClass().getResourceAsStream("/res/bullet/b_w.jpg"));
-            down = ImageIO.read(getClass().getResourceAsStream("/res/bullet/b_s.jpg"));
-            left = ImageIO.read(getClass().getResourceAsStream("/res/bullet/b_a.jpg"));
-            right = ImageIO.read(getClass().getResourceAsStream("/res/bullet/b_d.jpg"));
+            up = ImageIO.read(getClass().getResourceAsStream("/res/bullet/b_w.png"));
+            down = ImageIO.read(getClass().getResourceAsStream("/res/bullet/b_s.png"));
+            left = ImageIO.read(getClass().getResourceAsStream("/res/bullet/b_a.png"));
+            right = ImageIO.read(getClass().getResourceAsStream("/res/bullet/b_d.png"));
         }
         catch(IOException e){
             e.printStackTrace();
+        }
+    }
+
+    public boolean update(){
+        collisionOn = false;
+        gp.cChecker.checkTile(this);
+        int objIndex = gp.cChecker.checkObject(this, true);
+            hitObject(objIndex);
+        if(collisionOn)
+            return false;
+        else
+            return true;
+    }
+
+    public void hitObject(int i) {
+        if(i != 999) {
+
+            String objectName = gp.obj[i].name;
+
+            switch(objectName) {
+                case "Bomb":
+                    collisionOn = true;
+                    int x = gp.obj[i].worldX / gp.tileSize;
+                    int y = gp.obj[i].worldY / gp.tileSize;
+                    gp.aSetter.Object_Location[x][y]= 0;
+                    gp.obj[i] = null;
+                    gp.aSetter.RandomNewbomb();
+                break;
+                case "Et":
+                    collisionOn = true;
+                break;
+            }
         }
     }
 
@@ -41,16 +79,15 @@ public class Bullet extends Entity{
         // g2.fillRect(x, y, gp.tileSize, gp.tileSize);
 
         BufferedImage image = null;
-        setAction();
 
         switch(direction){
-            case "up" : image = up;
+            case "up" : image = up; worldY-=speed;
                 break;
-            case "down" : image = down;
+            case "down" : image = down; worldY+=speed;
                 break;
-            case "left" : image = left;
+            case "left" : image = left; worldX-=speed;
                 break;
-            case "right" : image = right;
+            case "right" : image = right; worldX+=speed;
                 break;
         }
 
@@ -63,10 +100,6 @@ public class Bullet extends Entity{
            worldY - gp.tileSize < gp.player.worldY + gp.player.screenY) {
                 g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
             }
-    }
-
-    public void setAction(){
-        worldX += speed;
     }
 
 }

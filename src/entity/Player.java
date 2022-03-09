@@ -15,7 +15,7 @@ public class Player extends Entity{
     public final int screenX;
     public final int screenY;
 
-    public int hasKey = 0;
+    public int Health = 100;
 
     public Player(GamePanel gp, KeyHandler keyH){
         super(gp);
@@ -26,7 +26,7 @@ public class Player extends Entity{
         screenX = gp.screenWidth/2 - gp.tileSize/2;
         screenY = gp.screenHeight/2 - gp.tileSize/2;
 
-        solidArea = new Rectangle(17, 13, 1, 1);
+        solidArea = new Rectangle(20, 20, 12, 5);
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
 
@@ -98,6 +98,9 @@ public class Player extends Entity{
                 }
             }
         }
+        if(keyH.spacePressed == true){
+            gp.createBullet(worldX, worldY, direction);
+        }
     }
 
     public void pickUpObject(int i) {
@@ -106,23 +109,44 @@ public class Player extends Entity{
             String objectName = gp.obj[i].name;
 
             switch(objectName) {
-                case "Key":
+                case "Bomb":
                     //gp.playSE(1);
-                    hasKey++;
+                    Health-=5;
+                    if(Health<=0)
+                    {
+                        gp.gameState = gp.gameOverState;
+                        break;
+                    }
+                    int x = gp.obj[i].worldX / gp.tileSize;
+                    int y = gp.obj[i].worldY / gp.tileSize;
+                    gp.aSetter.Object_Location[x][y]= 0;
                     gp.obj[i] = null;
-                    gp.ui.showMessage("Yoohoo");
+                    gp.ui.showMessage("-5");
+                    gp.aSetter.RandomNewbomb();
                 break;
 
-                case "Door":
-                    if(hasKey>0){
-                        gp.obj[i] = null;
-                        hasKey--;
+                // long firingTimer;
+                // int firingDelay = 600;
+                case "Et":
+                    if(Health<100){
+                        long elapsed = (System.nanoTime() - gp.healingTimer) / 1000000;
+                        if(elapsed > gp.healingDelay){
+                            gp.healingTimer = System.nanoTime();
+                            Health+=5;
+                            gp.ui.showMessage("+5");
+                            gp.obj[i].hp -= 5;
+                            //System.out.println("Remaining hp of Et is " + gp.obj[i].hp);
+                            if(gp.obj[i].hp == 0){
+                                int X = gp.obj[i].worldX / gp.tileSize;
+                                int Y = gp.obj[i].worldY / gp.tileSize;
+                                gp.aSetter.Object_Location[X][Y]= 0;
+                                gp.obj[i] = null;
+                                gp.et_count--;
+                            }
+                        }
                     }
                 break;
-
             }
-
-            
         }
     }
 
