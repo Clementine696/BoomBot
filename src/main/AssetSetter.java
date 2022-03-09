@@ -55,6 +55,7 @@ public class AssetSetter {
             int x =  R.nextInt(gp.maxWorldCol-1) + 1;
             int y =  R.nextInt(gp.maxWorldRow-1) + 1;
             if(Object_Location[x][y] == 0){
+                Object_Location[x][y] = 1;
                 gp.obj[count] = new OBJ_Bomb(gp);
                 gp.obj[count].worldX = x * gp.tileSize;
                 gp.obj[count].worldY = y * gp.tileSize;
@@ -67,11 +68,14 @@ public class AssetSetter {
 
     public void RandomEt(){
         Random R = new Random();
+        int hp = (R.nextInt(10)+10) * 5;
         while(true){
             int x =  R.nextInt(gp.maxWorldCol-1) + 1;
             int y =  R.nextInt(gp.maxWorldRow-1) + 1;
             if(Object_Location[x][y] == 0){
+                Object_Location[x][y] = 1;
                 gp.obj[count] = new OBJ_EnergyTank(gp);
+                gp.obj[count].hp = hp;
                 gp.obj[count].worldX = x * gp.tileSize;
                 gp.obj[count].worldY = y * gp.tileSize;
                 System.out.println("new Et at " + x + " " + y);

@@ -9,24 +9,24 @@ import java.awt.image.BufferedImage;
 public class Bullet extends Entity{
 
     GamePanel gp;
-    // Thread bulletThread;
+    Thread bulletThread;
 
     public Bullet(GamePanel gp, int X, int Y, String Direction){
         super(gp);
         this.gp = gp;
         getBulletImage();
-        // bulletThread = new Thread();
         setDefaultValues();
-        direction = Direction;
         worldX = X;
         worldY = Y;
-        solidArea = new Rectangle(20, 20, 12, 5);
-        solidAreaDefaultX = solidArea.x;
-        solidAreaDefaultY = solidArea.y;
-        // bulletThread.start();
+        direction = Direction;
+        bulletThread = new Thread();
+        bulletThread.start();
     }
 
     public void setDefaultValues(){
+        solidArea = new Rectangle(20, 20, 12, 5);
+        solidAreaDefaultX = solidArea.x;
+        solidAreaDefaultY = solidArea.y;
         speed = 5;
     }
 

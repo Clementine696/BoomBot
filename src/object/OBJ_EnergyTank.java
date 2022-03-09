@@ -10,7 +10,6 @@ public class OBJ_EnergyTank extends SuperObject{
     public OBJ_EnergyTank(GamePanel gp) {
 
         this.gp = gp;
-        this.hp = 80;
         this.collision = true;
         name = "Et";
         try{
